@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import styles from "../../constants/screens/org-onboarding-styles/TellAboutOrg.js";
 import * as SecureStore from "expo-secure-store";
+import GooglePlacesInput from "../../components/Search/GooglePlaceInput";
 
 const TellAboutOrganizationScreen = props => {
   const [airtableKey, setAirtableKey] = useState({
@@ -79,15 +80,24 @@ const TellAboutOrganizationScreen = props => {
       }
     );
   };
+  
+  
+  const notifyChange = (e)=>{
+      console.log("notifyChange e",e)
+  }
 
   return (
     <KeyboardAvoidingView
       style={styles.obBody}
-      behavior="height"
+      // behavior="height"
       keyboardVerticalOffset={86}
       enabled
     >
+     
       <ScrollView>
+        <GooglePlacesInput
+            notifyChange={notifyChange}
+        />
         {/* <View style={styles.obTextTopContainer}>
                 <Text style={styles.obTextTop}>1 of 4</Text>
                 </View> */}
@@ -107,7 +117,7 @@ const TellAboutOrganizationScreen = props => {
           }
         />
 
-        {/* <Text style={styles.obFieldName}>Organization Address</Text> */}
+         {/*<Text style={styles.obFieldName}>Organization Address</Text>*/}
         <TextInput
           placeholder="Main Address"
           style={styles.obTextInput}
@@ -116,6 +126,24 @@ const TellAboutOrganizationScreen = props => {
           }
           value={airtableState.address}
         />
+  
+        <GooglePlacesInput
+            notifyChange={notifyChange}
+            placeHolder="Address"
+            types="geocode"
+            currentLocation={true}
+        />
+  
+        {/*<View style={{ position: 'relative', height: 50 }}>*/}
+          <GooglePlacesInput style={{  container: { position: 'absolute', height: 50, zIndex:100} }}
+                             notifyChange={notifyChange}
+                             placeHolder="City"
+                             types="(cities)"
+                             currentLocation={false}
+           />
+        {/*</View>*/}
+        
+        {/*<Text style={{marginBottom:10}}>Organization Address</Text>*/}
 
         {/* <Text style={styles.obFieldName}>Organization Country</Text> */}
         <TextInput
