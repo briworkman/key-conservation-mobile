@@ -5,16 +5,30 @@ import * as WebBrowser from "expo-web-browser";
 import SvgUri from "react-native-svg-uri";
 import styles from "../../constants/DetailScreen/DetailAboutUs";
 
+
 const DetailAboutUs = props => {
+  console.log("DetailAboutUs props: admin status -->", props.adminStatus);
   let profile = props.profile;
-
-
 
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.sections}>
           <View style={styles.iconWrap}>
+
+{props.adminStatus && props.adminStatus === true ? (
+  <TouchableOpacity style={{ padding: 0, padding: 0 }}>
+  <SvgUri
+    fill='#DCDCDC'
+    width='15'
+    height='15'
+    //source={require('../../assets/icons/onboarding/yellow.svg')}
+   // source={require('../../assets/icons/trash-alt-solid.svg')}
+  />
+</TouchableOpacity>
+  ) : (
+    null
+  )}
             <SvgUri
               fill='#3b3b3b'
               width='25'

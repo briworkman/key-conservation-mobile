@@ -13,7 +13,6 @@ import SvgUri from 'react-native-svg-uri';
 import styles from '../../constants/Profile/SupProfileHeader'
 
 const SupProfileHeader = props => {
-  console.log("SupProfileHeader props", props);
   let profile = props.profile;
 
   return (
@@ -27,14 +26,6 @@ const SupProfileHeader = props => {
               uri: profile.profile_image
             }}
           />
-
-{/* the following is
-  
-  onPress={async () => {
-							props.currentUserProfile && currentUserProfile.admin === null && (await Linking.openURL(`mailto:${profile.email}`));
-							}}> */}
-
-
         </View>
         <View style={styles.rightContainer}>
           <View style={styles.textContainer}>

@@ -17,7 +17,7 @@ import styles from "../../constants/Profile/ProfileHeader";
 const ProfileHeader = props => {
   let profile = props.profile;
 
-  console.log(props);
+  //console.log(props);
 
   const WebsiteClick = async () => {
     if (profile.org_link_url && profile.org_link_url !== null) {
@@ -81,9 +81,7 @@ const ProfileHeader = props => {
             />
           </View>
           <View style={styles.textContainer}>
-            {profile.org_name === null || profile.org_name === "" ? (
-              <Text style={styles.org}>{profile.username}</Text>
-            ) : (
+            {profile.org_name === null || profile.org_name === "" ? null : (
               <Text style={styles.org}>{profile.org_name}</Text>
             )}
             {profile.location === null || profile.location === "" ? null : (

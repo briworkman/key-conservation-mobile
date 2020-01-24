@@ -10,6 +10,7 @@ import styles from '../constants/screens/MyDetailScreen';
 
 class DetailsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
+    //console.log("DetailsScreen props", this.props);
     return {
       title: 'Profile',
       headerStyle: {
@@ -37,6 +38,7 @@ class DetailsScreen extends React.Component {
         <DetailAboutUs
           navigation={this.props.navigation}
           profile={this.props.selectedProfile}
+          adminStatus={this.props.currentUserProfile.admin}
         />
       </ScrollView>
     );
@@ -44,7 +46,8 @@ class DetailsScreen extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  selectedProfile: state.selectedProfile
+  selectedProfile: state.selectedProfile,
+  currentUserProfile: state.currentUserProfile
 });
 
 export default connect(mapStateToProps)(DetailsScreen);

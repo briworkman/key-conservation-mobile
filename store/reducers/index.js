@@ -85,7 +85,8 @@ const initialState = {
     token: ""
   },
   currentUserProfile: {
-    campaigns: []
+    campaigns: [],
+    admin: false
   },
   selectedProfile: {
     campaigns: []
