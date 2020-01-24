@@ -5,7 +5,6 @@ import * as WebBrowser from "expo-web-browser";
 import SvgUri from "react-native-svg-uri";
 import styles from "../../constants/DetailScreen/DetailAboutUs";
 
-
 const DetailAboutUs = props => {
   console.log("DetailAboutUs props: admin status -->", props.adminStatus);
   let profile = props.profile;
@@ -15,27 +14,26 @@ const DetailAboutUs = props => {
       <View style={styles.container}>
         <View style={styles.sections}>
           <View style={styles.iconWrap}>
-
-{props.adminStatus && props.adminStatus === true ? (
-  <TouchableOpacity style={{ padding: 0, padding: 0 }}>
-  <SvgUri
-    fill='#DCDCDC'
-    width='15'
-    height='15'
-    //source={require('../../assets/icons/onboarding/yellow.svg')}
-   // source={require('../../assets/icons/trash-alt-solid.svg')}
-  />
-</TouchableOpacity>
-  ) : (
-    null
-  )}
             <SvgUri
-              fill='#3b3b3b'
-              width='25'
-              height='25'
+              fill="#3b3b3b"
+              width="25"
+              height="25"
               source={require("../../assets/icons/clipboard.svg")}
             />
             <Text style={styles.title}>{"About Us"}</Text>
+            {props.adminStatus && props.adminStatus === true ? (
+              <TouchableOpacity style={{ padding: 0, padding: 0 }}>
+                {/* Replace below 👇 SvgUri with trashbin icon */}
+                <SvgUri
+                  fill="grey"
+                  width="15"
+                  height="15"
+                  source={require("../../assets/icons/trash-alt-solid.svg")}
+                />
+
+                  {/* Replace above 👆 SvgUri with trashbin icon */}
+              </TouchableOpacity>
+            ) : null}
           </View>
           <Text style={styles.body}>{profile.about_us}</Text>
         </View>
@@ -43,9 +41,9 @@ const DetailAboutUs = props => {
         <View style={styles.sections}>
           <View style={styles.iconWrap}>
             <SvgUri
-              fill='#3b3b3b'
-              width='25'
-              height='25'
+              fill="#3b3b3b"
+              width="25"
+              height="25"
               source={require("../../assets/icons/seedling.svg")}
             />
             <Text style={styles.title}>{"Species & Habitats"}</Text>
@@ -58,9 +56,9 @@ const DetailAboutUs = props => {
         <View style={styles.sections}>
           <View style={styles.iconWrap}>
             <SvgUri
-              fill='#3b3b3b'
-              width='25'
-              height='25'
+              fill="#3b3b3b"
+              width="25"
+              height="25"
               source={require("../../assets/icons/lightbulb.svg")}
             />
             <Text style={styles.title}>{"Big Issues"}</Text>
@@ -72,9 +70,9 @@ const DetailAboutUs = props => {
         <View style={styles.campMission}>
           <View style={styles.iconWrap}>
             <SvgUri
-              fill='#3b3b3b'
-              width='25'
-              height='25'
+              fill="#3b3b3b"
+              width="25"
+              height="25"
               source={require("../../assets/icons/hand.svg")}
             />
             <Text style={styles.donateTitle}>{"Support Our Mission"}</Text>
