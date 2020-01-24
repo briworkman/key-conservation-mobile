@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-navigation";
 import * as WebBrowser from "expo-web-browser";
@@ -6,8 +6,17 @@ import SvgUri from "react-native-svg-uri";
 import styles from "../../constants/DetailScreen/DetailAboutUs";
 
 const DetailAboutUs = props => {
-  console.log("DetailAboutUs props: admin status -->", props.adminStatus);
+  //console.log("DetailAboutUs props: admin status -->", props.adminStatus);
   let profile = props.profile;
+
+  const [confirm, setConfirm] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+
+  childDelete = id => {
+    setDeleted(true);
+    setConfirm(false);
+    props.deactivateUser(id);
+  };
 
   return (
     <ScrollView>
@@ -22,17 +31,47 @@ const DetailAboutUs = props => {
             />
             <Text style={styles.title}>{"About Us"}</Text>
             {props.adminStatus && props.adminStatus === true ? (
-              <TouchableOpacity style={{ padding: 0, padding: 0 }}>
-                {/* Replace below 👇 SvgUri with trashbin icon */}
-                <SvgUri
-                  fill="grey"
-                  width="15"
-                  height="15"
-                  source={require("../../assets/icons/trash-alt-solid.svg")}
-                />
+              <View style={styles.interaction}>
+                {confirm === false && deleted === false ? (
+                  <TouchableOpacity
+                    style={{ padding: 0, padding: 0 }}
+                    onPress={() => setConfirm(true)}
+                  >
+                    {/* Replace below 👇 SvgUri with trashbin icon */}
+                    <SvgUri
+                      fill="grey"
+                      width="15"
+                      height="15"
+                      source={require("../../assets/icons/trash-alt-solid.svg")}
+                    />
 
-                  {/* Replace above 👆 SvgUri with trashbin icon */}
-              </TouchableOpacity>
+                    {/* Replace above 👆 SvgUri with trashbin icon */}
+                  </TouchableOpacity>
+                ) : null}
+                {confirm === true ? (
+                  <View style={styles.confirmation}>
+                    <Text style={styles.confirmText}>Are you sure?</Text>
+                    <Text
+                      style={styles.confirmText}
+                      onPress={() => childDelete(comment.comment_id)}
+                    >
+                      Yes
+                    </Text>
+                    <Text style={styles.confirmText}>/</Text>
+                    <Text
+                      style={styles.confirmNo}
+                      onPress={() => setConfirm(false)}
+                    >
+                      No
+                    </Text>
+                  </View>
+                ) : null}
+                {deleted === true ? (
+                  <View style={styles.confirmation}>
+                    <Text style={styles.confirmText}>Deleted</Text>
+                  </View>
+                ) : null}
+              </View>
             ) : null}
           </View>
           <Text style={styles.body}>{profile.about_us}</Text>
