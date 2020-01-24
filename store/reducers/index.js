@@ -67,6 +67,9 @@ import {
   GET_ORGANIZATIONS_SUCCESS,
   GET_ORGANIZATIONS_ERROR,
   SET_MAP_SEARCH_QUERY,
+  DEACTIVATE_USER_START,
+  DEACTIVATE_USER_ERROR,
+  DEACTIVATE_USER_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -547,6 +550,26 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         filteredOrganization: filterSearch(query, key, state.organizationWithCoords),
+      };
+      case DEACTIVATE_USER_START:
+      return {
+        ...state,
+        pending: { ...state.pending, updateProfile: true },
+        error: ""
+      };
+    case 
+    DEACTIVATE_USER_SUCCESS:
+      return {
+        ...state,
+        pending: { ...state.pending, updateProfile: false },
+        currentUserProfile: action.payload,
+        error: ""
+      };
+    case DEACTIVATE_USER_ERROR:
+      return {
+        ...state,
+        pending: { ...state.pending, updateProfile: false },
+        error: action.payload
       };
       
     default:

@@ -8,6 +8,8 @@ import styles from "../../constants/DetailScreen/DetailAboutUs";
 const DetailAboutUs = props => {
   let profile = props.profile;
 
+
+
   return (
     <ScrollView>
       <View style={styles.container}>

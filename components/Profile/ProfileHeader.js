@@ -17,6 +17,8 @@ import styles from "../../constants/Profile/ProfileHeader";
 const ProfileHeader = props => {
   let profile = props.profile;
 
+  console.log(props);
+
   const WebsiteClick = async () => {
     if (profile.org_link_url && profile.org_link_url !== null) {
       (await WebBrowser.openBrowserAsync(profile.org_link_url)) &&

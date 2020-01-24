@@ -4,9 +4,9 @@ import * as SecureStore from "expo-secure-store";
 
 // url for heroku staging vs production server
 // production
-const seturl = 'https://key-conservation.herokuapp.com/api/'
+//const seturl = 'https://key-conservation.herokuapp.com/api/'
 // staging
-// const seturl = "https://key-conservation-staging.herokuapp.com/api/";
+ const seturl = "https://key-conservation-staging.herokuapp.com/api/";
 
 const filterUrls = (keys, object) => {
   // If a user doesn't include http or https in their URL this function will add it.
@@ -704,4 +704,33 @@ export const [SET_MAP_SEARCH_QUERY] = ["SET_MAP_SEARCH_QUERY"];
 
 export const setMapSearchQuery = (query, field) => async dispatch => {
   dispatch({ type: SET_MAP_SEARCH_QUERY, payload: { query, field } });
+};
+
+export const [
+  DEACTIVATE_USER_START,
+  DEACTIVATE_USER_ERROR,
+  DEACTIVATE_USER_SUCCESS
+] = [
+  "DEACTIVATE_USER_START",
+  "DEACTIVATE_USER_ERROR",
+  "DEACTIVATE_USER_SUCCESS"
+];
+
+export const deactivateUser = id => async dispatch => {
+  dispatch({ type: DEACTIVATE_USER_START });
+  let token = await SecureStore.getItemAsync("accessToken");
+  axios
+    .post(`${seturl}deactivate/${id}`, {
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => {
+      dispatch({ type: DEACTIVATE_USER_SUCCESS, payload: res.data });
+    })
+    .catch(err => {
+      dispatch({ type: DEACTIVATE_USER_ERROR, payload: err });
+    });
 };
