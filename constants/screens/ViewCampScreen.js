@@ -117,10 +117,6 @@ export default {
     justifyContent: 'space-between',
     marginTop: 15
   },
-  likesContainer: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
   hearts: {
     marginHorizontal: 15
   },
@@ -131,17 +127,6 @@ export default {
   heartFill: {
     fontSize: 30,
     color: '#e60024'
-  },
-  bookmarks: {
-    marginHorizontal: 15
-  },
-  bookmarkOutline: {
-    fontSize: 28,
-    color: 'black'
-  },
-  bookmarkFill: {
-    fontSize: 30,
-    color: '#00FF9D'
   },
   timeText: {
     color: '#929292',

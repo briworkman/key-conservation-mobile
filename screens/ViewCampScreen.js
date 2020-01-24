@@ -15,7 +15,6 @@ import * as WebBrowser from "expo-web-browser";
 import { connect } from "react-redux";
 import SvgUri from "react-native-svg-uri";
 import moment from "moment";
-import { FontAwesome, Feather } from "@expo/vector-icons";
 import { Viewport } from "@skele/components";
 
 import { getProfileData } from "../store/actions";
@@ -46,12 +45,6 @@ class ViewCampScreen extends React.Component {
       headerLeft: <BackButton navigation={navigation} popToTop />,
       headerRight: <View />
     };
-  };
-
-  state = {
-    likes: this.props.navigation.state.params.likes,
-    userLiked: this.props.navigation.state.params.userLiked,
-    userBookmarked: this.props.navigation.state.params.userBookmarked
   };
 
   render() {
@@ -139,91 +132,6 @@ class ViewCampScreen extends React.Component {
                       style={styles.campImgContain}
                     />
                   )}
-                  {/* <View style={styles.iconRow}>
-                    <View style={styles.likesContainer}>
-                      <View style={styles.hearts}>
-                        <View
-                          style={
-                            !this.state.userLiked
-                              ? { zIndex: 1 }
-                              : { zIndex: -1 }
-                          }
-                        >
-                          <FontAwesome
-                            onPress={() =>
-                              this.addLike(this.props.selectedCampaign.camp_id)
-                            }
-                            name='heart-o'
-                            style={styles.heartOutline}
-                          />
-                        </View>
-                        <View
-                          animation={
-                            this.state.userLiked ? "zoomIn" : "zoomOut"
-                          }
-                          style={
-                            (this.state.userLiked
-                              ? { zIndex: 1 }
-                              : { zIndex: -1 },
-                            { marginTop: -29, marginLeft: -1.25 })
-                          }
-                          duration={300}
-                        >
-                          <FontAwesome
-                            onPress={() =>
-                              this.deleteLike(
-                                this.props.selectedCampaign.camp_id
-                              )
-                            }
-                            name='heart'
-                            style={styles.heartFill}
-                          />
-                        </View>
-                      </View>
-                      {this.state.likes === 0 ? null : this.state.likes > 1 ? (
-                        <Text style={styles.likes}>
-                          {this.state.likes} likes
-                        </Text>
-                      ) : (
-                        <Text style={styles.likes}>
-                          {this.state.likes} like
-                        </Text>
-                      )}
-                    </View>
-                    <View style={styles.bookmarks}>
-                      <View
-                        style={
-                          !this.state.userBookmarked
-                            ? { zIndex: 1 }
-                            : { zIndex: -1 }
-                        }
-                      >
-                        <FontAwesome
-                          onPress={() => this.addBookmark()}
-                          name='bookmark-o'
-                          style={styles.bookmarkOutline}
-                        />
-                      </View>
-                      <View
-                        animation={
-                          this.state.userBookmarked ? "zoomIn" : "zoomOut"
-                        }
-                        style={
-                          (this.state.userBookmarked
-                            ? { zIndex: 1 }
-                            : { zIndex: -1 },
-                          { marginTop: -28.75, marginLeft: -1.25 })
-                        }
-                        duration={300}
-                      >
-                        <FontAwesome
-                          onPress={() => this.deleteBookmark()}
-                          name='bookmark'
-                          style={styles.bookmarkFill}
-                        />
-                      </View>
-                    </View>
-                  </View> */}
                   <View style={styles.campDescContain}>
                     <Text style={styles.campDescName}>
                       {this.props.selectedCampaign.camp_name}
@@ -331,91 +239,6 @@ class ViewCampScreen extends React.Component {
                       style={styles.campImgContain}
                     />
                   )}
-                  {/* <View style={styles.iconRow}>
-                    <View style={styles.likesContainer}>
-                      <View style={styles.hearts}>
-                        <View
-                          style={
-                            !this.state.userLiked
-                              ? { zIndex: 1 }
-                              : { zIndex: -1 }
-                          }
-                        >
-                          <FontAwesome
-                            onPress={() =>
-                              this.addLike(this.props.selectedCampaign.camp_id)
-                            }
-                            name='heart-o'
-                            style={styles.heartOutline}
-                          />
-                        </View>
-                        <View
-                          animation={
-                            this.state.userLiked ? "zoomIn" : "zoomOut"
-                          }
-                          style={
-                            (this.state.userLiked
-                              ? { zIndex: 1 }
-                              : { zIndex: -1 },
-                            { marginTop: -28.75, marginLeft: -1.25 })
-                          }
-                          duration={300}
-                        >
-                          <FontAwesome
-                            onPress={() =>
-                              this.deleteLike(
-                                this.props.selectedCampaign.camp_id
-                              )
-                            }
-                            name='heart'
-                            style={styles.heartFill}
-                          />
-                        </View>
-                      </View>
-                      {this.state.likes === 0 ? null : this.state.likes > 1 ? (
-                        <Text style={styles.likes}>
-                          {this.state.likes} likes
-                        </Text>
-                      ) : (
-                        <Text style={styles.likes}>
-                          {this.state.likes} like
-                        </Text>
-                      )}
-                    </View>
-                    <View style={styles.bookmarks}>
-                      <View
-                        style={
-                          !this.state.userBookmarked
-                            ? { zIndex: 1 }
-                            : { zIndex: -1 }
-                        }
-                      >
-                        <FontAwesome
-                          onPress={() => this.addBookmark()}
-                          name='bookmark-o'
-                          style={styles.bookmarkOutline}
-                        />
-                      </View>
-                      <View
-                        animation={
-                          this.state.userBookmarked ? "zoomIn" : "zoomOut"
-                        }
-                        style={
-                          (this.state.userBookmarked
-                            ? { zIndex: 1 }
-                            : { zIndex: -1 },
-                          { marginTop: -28.75, marginLeft: -1.25 })
-                        }
-                        duration={300}
-                      >
-                        <FontAwesome
-                          onPress={() => this.deleteBookmark()}
-                          name='bookmark'
-                          style={styles.bookmarkFill}
-                        />
-                      </View>
-                    </View>
-                  </View> */}
                   <View style={styles.campDescContain}>
                     <Text style={styles.campDescName}>
                       {this.props.selectedCampaign.camp_name}
@@ -490,40 +313,6 @@ class ViewCampScreen extends React.Component {
       </View>
     );
   }
-
-  addLike = campId => {
-    this.setState({
-      ...this.state,
-      likes: this.state.likes + 1,
-      userLiked: true
-    });
-    this.props.navigation.state.params.addLike(campId);
-  };
-
-  deleteLike = campId => {
-    this.setState({
-      ...this.state,
-      likes: this.state.likes - 1,
-      userLiked: false
-    });
-    this.props.navigation.state.params.deleteLike(campId);
-  };
-
-  addBookmark = () => {
-    this.setState({
-      ...this.state,
-      userBookmarked: true
-    });
-    this.props.navigation.state.params.addBookmark();
-  };
-
-  deleteBookmark = () => {
-    this.setState({
-      ...this.state,
-      userBookmarked: false
-    });
-    this.props.navigation.state.params.deleteBookmark();
-  };
 
   goToProfile = () => {
     this.props.getProfileData(this.props.selectedCampaign.users_id);

@@ -69,7 +69,6 @@ class MyProScreen extends React.Component {
   goToCampaign = camp => {
     this.props.setCampaign(camp);
     this.props.navigation.navigate('Camp', {
-      likes: camp.likes.length,
       media: camp.camp_img
     });
   };

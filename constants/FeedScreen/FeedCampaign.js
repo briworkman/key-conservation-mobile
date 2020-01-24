@@ -48,9 +48,6 @@ export default {
     marginTop: 15,
     height: 30
   },
-  likesContainer: {
-    flexDirection: 'row'
-  },
   hearts: {
     marginHorizontal: 15
   },
@@ -62,20 +59,6 @@ export default {
     fontSize: 30,
     color: '#e60024',
     zIndex: 1
-  },
-  bookmarks: {
-    marginHorizontal: 20
-  },
-  bookmarkOutline: {
-    fontSize: 28,
-    color: 'black'
-  },
-  bookmarkFill: {
-    fontSize: 30,
-    color: '#00FF9D'
-  },
-  likes: {
-    marginTop: 5
   },
   goToCampaignText: {
     fontFamily: 'Lato-Bold',

@@ -43,8 +43,6 @@ class ViewCampUpdateScreen extends React.Component {
   };
 
   state = {
-    likes: this.props.navigation.state.params.likes,
-    userLiked: this.props.navigation.state.params.userLiked,
     campaign: {}
   };
 
@@ -89,51 +87,6 @@ class ViewCampUpdateScreen extends React.Component {
               style={styles.campImgContain}
             />
           )}
-          {/* 
-          <View style={styles.likesContainer}>
-            <View style={styles.hearts}>
-              <View
-                style={!this.state.userLiked ? { zIndex: 1 } : { zIndex: -1 }}
-              >
-                <FontAwesome
-                  onPress={() =>
-                    this.addLike(
-                      this.props.selectedCampaign.camp_id,
-                      this.props.selectedCampaign.update_id
-                    )
-                  }
-                  name='heart-o'
-                  style={styles.heartOutline}
-                />
-              </View>
-              <View
-                animation={this.state.userLiked ? 'zoomIn' : 'zoomOut'}
-                style={
-                  (this.state.userLiked ? { zIndex: 1 } : { zIndex: -1 },
-                  Platform.OS === 'android'
-                    ? { marginTop: -29, marginLeft: -1.25 }
-                    : { marginTop: -28.75, marginLeft: -1.25 })
-                }
-                duration={300}
-              >
-                <FontAwesome
-                  onPress={() =>
-                    this.deleteLike(
-                      this.props.selectedCampaign.camp_id,
-                      this.props.selectedCampaign.update_id
-                    )
-                  }
-                  name='heart'
-                  style={styles.heartFill}
-                />
-              </View>
-            </View>
-            {this.state.likes === 0 ? null : this.state.likes > 1 ? (
-              <Text style={styles.likes}>{this.state.likes} likes</Text>
-            ) : (
-              <Text style={styles.likes}>{this.state.likes} like</Text>
-            )}
-          </View> */}
           <View style={styles.campDescContain}>
             <Text style={styles.campDescName}>
               {this.props.selectedCampaign.camp_name}
@@ -161,24 +114,6 @@ class ViewCampUpdateScreen extends React.Component {
       </ScrollView>
     );
   }
-
-  addLike = (campId, updateId) => {
-    this.setState({
-      ...this.state,
-      likes: this.state.likes + 1,
-      userLiked: true
-    });
-    this.props.navigation.state.params.addLike(campId, updateId);
-  };
-
-  deleteLike = (campId, updateId) => {
-    this.setState({
-      ...this.state,
-      likes: this.state.likes - 1,
-      userLiked: false
-    });
-    this.props.navigation.state.params.deleteLike(campId, updateId);
-  };
 
   goToProfile = async () => {
     await this.props.getProfileData(this.props.selectedCampaign.users_id);
@@ -211,10 +146,6 @@ class ViewCampUpdateScreen extends React.Component {
   goToCampaign = async () => {
     await this.props.getCampaign(this.props.selectedCampaign.camp_id);
     this.props.navigation.navigate('Camp', {
-      likes: this.state.campaign.likes.length,
-      userLiked: this.props.navigation.state.params.userLiked,
-      addLike: this.props.navigation.state.params.addLike,
-      deleteLike: this.props.navigation.state.params.deleteLike,
       media: this.state.campaign.camp_img
     });
   };
@@ -272,11 +203,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: deviceWidth,
     width: deviceWidth
-  },
-  likesContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 15
   },
   hearts: {
     marginHorizontal: 15

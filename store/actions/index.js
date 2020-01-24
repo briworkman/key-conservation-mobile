@@ -4,9 +4,9 @@ import * as SecureStore from "expo-secure-store";
 
 // url for heroku staging vs production server
 // production
-const seturl = 'https://key-conservation.herokuapp.com/api/'
+// const seturl = 'https://key-conservation.herokuapp.com/api/'
 // staging
-// const seturl = "https://key-conservation-staging.herokuapp.com/api/";
+const seturl = "https://key-conservation-staging.herokuapp.com/api/";
 
 const filterUrls = (keys, object) => {
   // If a user doesn't include http or https in their URL this function will add it.
@@ -649,23 +649,6 @@ export const deleteComment = id => async dispatch => {
     .catch(err => {
       dispatch({ type: DELETE_COMMENT_ERROR, payload: err });
     });
-};
-
-export const addLike = (id, userId) => async dispatch => {
-  let token = await SecureStore.getItemAsync("accessToken");
-  axios
-    .post(
-      `${seturl}social/likes/${id}`,
-      { users_id: userId, camp_id: id },
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        }
-      }
-    )
-    .then(console.log("word"));
 };
 
 export const [

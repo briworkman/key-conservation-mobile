@@ -125,7 +125,6 @@ Additionally, supporters of conservation organizations want more transparency as
 - Commenting on campaigns
 - Video uploading
 - Urgency levels for campaign posts
-- Liking and Bookmarking posts
 
 ## Tech Stack
 

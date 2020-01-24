@@ -1,33 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
 import {
   Text,
   ImageBackground,
   ActivityIndicator,
-  TouchableOpacity,
-  Platform
-} from 'react-native';
-import { NavigationEvents, withNavigationFocus } from 'react-navigation';
-import { View } from 'react-native-animatable';
-import moment from 'moment';
-import { Video } from 'expo-av';
-import { ListItem } from 'react-native-elements';
-import { useDispatch } from 'react-redux';
-import { connect } from 'react-redux';
-import { FontAwesome } from '@expo/vector-icons';
-import axios from 'axios';
-import { Viewport } from '@skele/components';
+  TouchableOpacity
+} from "react-native";
+import { withNavigationFocus } from "react-navigation";
+import { View } from "react-native-animatable";
+import moment from "moment";
+import { Video } from "expo-av";
+import { ListItem } from "react-native-elements";
+import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
+import { Viewport } from "@skele/components";
 
 import {
   getProfileData,
   setCampaign,
   toggleCampaignText
-} from '../../store/actions';
-import { AmpEvent } from '../withAmplitude';
+} from "../../store/actions";
+import { AmpEvent } from "../withAmplitude";
 
-import styles from '../../constants/FeedScreen/FeedUpdate';
+import shorten from '../../util/shorten';
 
-// url for heroku staging vs production server
-const seturl = 'https://key-conservation.herokuapp.com/api/';
+import styles from "../../constants/FeedScreen/FeedUpdate";
 
 const Placeholder = () => <View style={styles.campImgContain} />;
 
@@ -40,81 +36,27 @@ const ViewportAwareVideo = Viewport.Aware(
 );
 
 const FeedUpdate = props => {
-  const [likes, setLikes] = useState(props.data.likes.length);
-  const [userLiked, setUserLiked] = useState(false);
   const [loader, setLoader] = useState(true);
-
-  useEffect(() => {
-    const liked = data.likes.filter(
-      l => l.users_id === props.currentUserProfile.id
-    );
-    if (liked.length > 0) {
-      setUserLiked(true);
-    }
-  }, []);
 
   const dispatch = useDispatch();
   const { data, toggled } = props;
-  const shorten = (string, cutoff) => {
-    if (string.length < cutoff) {
-      return string;
-    } else {
-      let end = cutoff;
-      const avoidChars = [' ', ',', '.', '!'];
-      while (avoidChars.includes(string.charAt(end)) && end >= cutoff - 10) {
-        end--;
-      }
-      return `${string.substring(0, end)}...`;
-    }
-  };
 
   const createdAt = data.created_at;
-  const currentTime = moment();
-  const postTime = moment(createdAt);
-  let timeDiff;
-  if (currentTime.diff(postTime, 'days') < 1) {
-    if (currentTime.diff(postTime, 'hours') < 1) {
-      if (currentTime.diff(postTime, 'minutes') < 1) {
-        timeDiff = 'just now';
-      } else {
-        if (currentTime.diff(postTime, 'minutes') === 1) {
-          timeDiff = `${currentTime.diff(postTime, 'minutes')} MINUTE AGO`;
-        } else {
-          timeDiff = `${currentTime.diff(postTime, 'minutes')} MINUTES AGO`;
-        }
-      }
-    } else {
-      if (currentTime.diff(postTime, 'hours') === 1) {
-        timeDiff = `${currentTime.diff(postTime, 'hours')} HOUR AGO`;
-      } else {
-        timeDiff = `${currentTime.diff(postTime, 'hours')} HOURS AGO`;
-      }
-    }
-  } else {
-    if (currentTime.diff(postTime, 'days') === 1) {
-      timeDiff = `${currentTime.diff(postTime, 'days')} DAY AGO`;
-    } else {
-      timeDiff = `${currentTime.diff(postTime, 'days')} DAYS AGO`;
-    }
-  }
+  const postTime = moment(createdAt).fromNow();
 
   const goToProfile = async () => {
     await dispatch(getProfileData(data.users_id));
-    AmpEvent('Select Profile from Campaign', {
+    AmpEvent("Select Profile from Campaign", {
       profile: data.username,
       campaign: data.camp_name
     });
-    props.navigation.navigate('Pro');
+    props.navigation.navigate("Pro");
   };
 
   const goToCampUpdate = () => {
     dispatch(setCampaign(data));
-    props.navigation.navigate('CampUpdate', {
-      backBehavior: 'Home',
-      likes: likes,
-      userLiked: userLiked,
-      addLike: addLike,
-      deleteLike: deleteLike,
+    props.navigation.navigate("CampUpdate", {
+      backBehavior: "Home",
       media: data.update_img
     });
   };
@@ -131,98 +73,6 @@ const FeedUpdate = props => {
     }
   };
 
-  const addLike = (campId, updateId) => {
-    if (updateId) {
-      axios
-        .post(
-          `${seturl}social/update/${data.update_id}`,
-          {
-            users_id: props.currentUserProfile.id,
-            update_id: data.update_id
-          },
-          {
-            headers: {
-              Accept: 'application/json',
-              Authorization: `Bearer ${props.token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        .then(res => {
-          setLikes(res.data.data.length);
-          setUserLiked(true);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      axios
-        .post(
-          `${seturl}social/likes/${campId}`,
-          {
-            users_id: props.currentUserProfile.id,
-            camp_id: campId
-          },
-          {
-            headers: {
-              Accept: 'application/json',
-              Authorization: `Bearer ${props.token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        .then(res => {
-          setLikes(res.data.data.length);
-          setUserLiked(true);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  };
-
-  const deleteLike = (campId, updateId) => {
-    if (updateId) {
-      axios
-        .delete(
-          `${seturl}social/update/${data.update_id}/${props.currentUserProfile.id}`,
-          {
-            headers: {
-              Accept: 'application/json',
-              Authorization: `Bearer ${props.token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        .then(res => {
-          setLikes(likes - 1);
-          setUserLiked(false);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      axios
-        .delete(
-          `${seturl}social/likes/${campId}/${props.currentUserProfile.id}`,
-          {
-            headers: {
-              Accept: 'application/json',
-              Authorization: `Bearer ${props.token}`,
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-        .then(res => {
-          setLikes(likes - 1);
-          setUserLiked(false);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  };
-
   return (
     <View style={styles.container}>
       {props.hideUsername === undefined && (
@@ -235,15 +85,18 @@ const FeedUpdate = props => {
           }
           leftAvatar={{ source: { uri: data.profile_image } }}
           subtitle={
-            <View><Text style={styles.subtitleText}>{data.location}</Text></View>}
+            <View>
+              <Text style={styles.subtitleText}>{data.location}</Text>
+            </View>
+          }
         />
       )}
       <View>
         {props.fromCampScreen ? (
           <View>
-            {data.update_img.includes('.mov') ||
-            data.update_img.includes('.mp3') ||
-            data.update_img.includes('.mp4') ? (
+            {data.update_img.includes(".mov") ||
+            data.update_img.includes(".mp3") ||
+            data.update_img.includes(".mp4") ? (
               <View>
                 {loader ? (
                   <View style={styles.indicator}>
@@ -285,9 +138,9 @@ const FeedUpdate = props => {
           </View>
         ) : (
           <TouchableOpacity activeOpacity={0.5} onPress={goToCampUpdate}>
-            {data.update_img.includes('.mov') ||
-            data.update_img.includes('.mp3') ||
-            data.update_img.includes('.mp4') ? (
+            {data.update_img.includes(".mov") ||
+            data.update_img.includes(".mp3") ||
+            data.update_img.includes(".mp4") ? (
               <View>
                 {loader ? (
                   <View style={styles.indicator}>
@@ -329,44 +182,6 @@ const FeedUpdate = props => {
           </TouchableOpacity>
         )}
       </View>
-      {/* Above checks to see if the FeedUpdate is being displayed in the Feed or in the ViewCampScreen */}
-      {/* <View style={styles.iconRow}>
-
-        <View style={styles.likesContainer}>
-          <View style={styles.hearts}>
-            <View style={!userLiked ? { zIndex: 1 } : { zIndex: -1 }}>
-              <FontAwesome
-                onPress={() => addLike(data.camp_id, data.update_id)}
-                name="heart-o"
-                style={styles.heartOutline}
-              />
-            </View>
-            <View
-              animation={userLiked ? 'zoomIn' : 'zoomOut'}
-              style={
-                (userLiked ? { zIndex: 1 } : { zIndex: -1 },
-                Platform.OS === 'android'
-                  ? { marginTop: -29, marginLeft: -1.25 }
-                  : { marginTop: -28.75, marginLeft: -1.25 })
-              }
-              duration={300}
-            >
-              <FontAwesome
-                onPress={() => deleteLike(data.camp_id, data.update_id)}
-                name="heart"
-                style={styles.heartFill}
-              />
-            </View>
-          </View>
-          {likes === 0 ? null : likes > 1 ? (
-            <Text style={styles.likes}>{likes} likes</Text>
-          ) : (
-            <Text style={styles.likes}>{likes} like</Text>
-          )}
-        </View>
-
-      </View> */}
-
       <View style={styles.campDesc}>
         <Text style={styles.campDescName}>{data.camp_name}</Text>
         {toggled || data.update_desc.length < 80 ? (
@@ -381,7 +196,7 @@ const FeedUpdate = props => {
           </Text>
         )}
       </View>
-      <Text style={styles.timeText}>{timeDiff}</Text>
+      <Text style={styles.timeText}>{postTime}</Text>
       <View style={styles.demarcation}></View>
     </View>
   );
@@ -392,12 +207,9 @@ const mapStateToProps = state => ({
   token: state.token
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    getProfileData,
-    setCampaign,
-    toggleCampaignText
-  }
-)(withNavigationFocus(FeedUpdate));
+export default connect(mapStateToProps, {
+  getProfileData,
+  setCampaign,
+  toggleCampaignText
+})(withNavigationFocus(FeedUpdate));
 // withNavigationFocus unmounts video and prevents audio playing across the navigation stack

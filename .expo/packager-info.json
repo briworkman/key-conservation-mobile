@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "ngrokPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 2844,
+  "ngrokPid": 1872,
+  "expoServerNgrokUrl": "https://d3-9et.mohammadtourj.key-conservation-mobile.exp.direct",
+  "packagerNgrokUrl": "https://packager.d3-9et.mohammadtourj.key-conservation-mobile.exp.direct",
   "webpackServerPort": null
 }

@@ -62,11 +62,6 @@ export default {
     fontFamily: 'Lato-Bold',
     fontSize: 18
   },
-  likesContainer: {
-    flexDirection: 'row',
-    marginTop: 15,
-    alignItems: 'center'
-  },
   campDesc: {
     marginLeft: 15,
     paddingTop: 15,
