@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import DetailHeader from '../components/DetailScreen/DetailHeader';
 import DetailAboutUs from '../components/DetailScreen/DetailAboutUs';
+import { deactivateUser } from "../store/actions/index.js"
 
 import styles from '../constants/screens/MyDetailScreen';
 
@@ -39,6 +40,7 @@ class DetailsScreen extends React.Component {
           navigation={this.props.navigation}
           profile={this.props.selectedProfile}
           adminStatus={this.props.currentUserProfile.admin}
+          deactivateUser={this.props.deactivateUser}
         />
       </ScrollView>
     );
@@ -50,4 +52,4 @@ const mapStateToProps = state => ({
   currentUserProfile: state.currentUserProfile
 });
 
-export default connect(mapStateToProps)(DetailsScreen);
+export default connect(mapStateToProps, { deactivateUser })(DetailsScreen);

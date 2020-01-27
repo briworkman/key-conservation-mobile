@@ -563,6 +563,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         pending: { ...state.pending, updateProfile: false },
+        //state.comments.filter(c => c.comment_id !== action.payload)
         currentUserProfile: action.payload,
         error: ""
       };

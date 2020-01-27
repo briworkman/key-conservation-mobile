@@ -6,16 +6,18 @@ import SvgUri from "react-native-svg-uri";
 import styles from "../../constants/DetailScreen/DetailAboutUs";
 
 const DetailAboutUs = props => {
-  //console.log("DetailAboutUs props: admin status -->", props.adminStatus);
+  console.log("DetailAboutUs props -->", props.profile.id);
   let profile = props.profile;
 
   const [confirm, setConfirm] = useState(false);
   const [deleted, setDeleted] = useState(false);
 
-  childDelete = id => {
+  userDeactivate = id => {
     setDeleted(true);
     setConfirm(false);
     props.deactivateUser(id);
+    console.log("DetailsAboutUs/userDeactivate", confirm, deleted);
+    //push to home? map??
   };
 
   return (
@@ -33,27 +35,19 @@ const DetailAboutUs = props => {
             {props.adminStatus && props.adminStatus === true ? (
               <View style={styles.interaction}>
                 {confirm === false && deleted === false ? (
-                  <TouchableOpacity
-                    style={{ padding: 0, padding: 0 }}
+                  <Text
+                    style={styles.deleteText}
                     onPress={() => setConfirm(true)}
                   >
-                    {/* Replace below 👇 SvgUri with trashbin icon */}
-                    <SvgUri
-                      fill="grey"
-                      width="15"
-                      height="15"
-                      source={require("../../assets/icons/trash-alt-solid.svg")}
-                    />
-
-                    {/* Replace above 👆 SvgUri with trashbin icon */}
-                  </TouchableOpacity>
+                    Delete
+                  </Text>
                 ) : null}
                 {confirm === true ? (
                   <View style={styles.confirmation}>
                     <Text style={styles.confirmText}>Are you sure?</Text>
                     <Text
                       style={styles.confirmText}
-                      onPress={() => childDelete(comment.comment_id)}
+                      onPress={() => userDeactivate(props.profile.id)}
                     >
                       Yes
                     </Text>
