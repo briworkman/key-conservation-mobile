@@ -5,8 +5,8 @@ import Ellipse from '../assets/jsicons/Ellipse';
 import { reportUser, getProfileData } from '../store/actions';
 
 const Report = props => {
-  const reportUser = () => {
-    props.reportUser(props.currentUserProfile.id).then(error => {
+  const reportUser = desc => {
+    props.reportUser(props.postId, props.postType, desc).then(error => {
       if (error) Alert.alert(error);
     });
   };
@@ -19,11 +19,16 @@ const Report = props => {
         { text: 'Cancel', style: 'cancel' },
         {
           text: "It's Inappropriate",
-          onPress: () => reportUser()
+          onPress: () =>
+            reportUser(
+              //   props.currentUserProfile.id,
+              //   'users',
+              "It's Inappropriate"
+            )
         },
         {
           text: "It's Spam",
-          onPress: () => reportUser()
+          onPress: () => reportUser("It's Spam")
         }
       ],
       { cancelable: true }

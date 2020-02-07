@@ -345,7 +345,7 @@ const FeedCampaign = props => {
           <View style={styles.username}>
             <Text style={styles.orgTitleView}>{data.username}</Text>
             <View style={styles.ellipse}>
-              <ReportUserEllipse />
+              <ReportUserEllipse postId={data.camp_id} postType={'campaigns'} />
             </View>
           </View>
         }

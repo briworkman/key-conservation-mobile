@@ -48,7 +48,7 @@ const SupProfileHeader = props => {
             <View style={styles.textContainer}>
               <View style={traschCan.nameContainer}>
                 <Text style={styles.titleText}>{profile.sup_name}</Text>
-                <ReportUserEllipse />
+                <ReportUserEllipse postId={profile.id} postType={'users'} />
               </View>
               <Text style={styles.userText}>{profile.location}</Text>
               <Text style={styles.userText}>@{profile.username}</Text>

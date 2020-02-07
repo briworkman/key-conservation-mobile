@@ -11,7 +11,7 @@ import { Alert } from 'react-native';
 // // IMPORTANT USAGE NOTES
 // // Usage:
 // /*
-//   axiosWithAuth(dispatch, axiosInstance => {
+//   axiosWithAuth(axiosInstance => {
 //     return axiosInstance...
 //   })
 // */
@@ -744,9 +744,9 @@ export const [GET_REPORTS_START, GET_REPORTS_SUCCESS, GET_REPORTS_ERROR] = [
   'GET_REPORTS_ERROR'
 ];
 
-export const getReports = (page = 0, type='all', archive=false) => dispatch => {
+export const getReports = (page = 0) => dispatch => {
   dispatch({ type: GET_REPORTS_START });
-  let url = `${seturl}reports?page=${page}&type=${type}&archive=${archive}`;
+  let url = `${seturl}reports?page=${page}`;
 
   return axiosWithAuth(dispatch, aaxios => {
     return aaxios
@@ -798,16 +798,17 @@ export const deactivateUser = id => dispatch => {
   });
 };
 
-export const reportUser = id => dispatch => {
+export const reportUser = (postId, postType, desc) => dispatch => {
+  let url = `${seturl}reports`;
+  console.log(postId, postType, desc);
   return axiosWithAuth(dispatch, aaxios => {
-    let url = `${seturl}reports`;
     return aaxios
-      .post(url, {})
+      .post(url, { postId, postType, desc })
       .then(res => {
         console.log('Report Successful');
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.message);
         return err.message;
       });
   });
